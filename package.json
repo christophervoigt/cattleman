@@ -1,6 +1,6 @@
 {
   "name": "cattleman",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Webpack helper library that gathers entry chunks and templates.",
   "license": "MIT",
   "author": "Christopher Voigt <chlorophyllkid@gmail.com>",
