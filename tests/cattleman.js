@@ -16,15 +16,14 @@ test('Cattleman test cases:', t => {
 
 
     t.test('Method gatherFiles ...', assert => {
-        const cattleman = new Cattleman({
-            directory: 'tests'
-        })
+        const cattleman = new Cattleman('tests')
 
         assert.true(cattleman.gatherFiles, '... exists')
         assert.equal(typeof cattleman.gatherFiles, 'function', '... is function')
 
         const list = cattleman.gatherFiles()
         assert.true(list instanceof Array, '... returns array')
+        assert.equal(typeof list[0], 'string', '... returns array of strings')
 
         assert.end()
     })
@@ -32,9 +31,7 @@ test('Cattleman test cases:', t => {
 
 
     t.test('Method gatherEntries ...', assert => {
-        const cattleman = new Cattleman({
-            directory: 'tests'
-        })
+        const cattleman = new Cattleman('tests')
 
         assert.true(cattleman.gatherEntries, '... exists')
         assert.equal(typeof cattleman.gatherEntries, 'function', '... is function')
