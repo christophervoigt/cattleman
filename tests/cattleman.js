@@ -14,26 +14,34 @@ test('Cattleman test cases:', t => {
     })
 
 
-    // @todo: write more tests
 
     t.test('Method gatherFiles ...', assert => {
-        const cattleman = new Cattleman()
+        const cattleman = new Cattleman({
+            directory: 'tests'
+        })
+
         assert.true(cattleman.gatherFiles, '... exists')
         assert.equal(typeof cattleman.gatherFiles, 'function', '... is function')
+
+        const list = cattleman.gatherFiles()
+        assert.true(list instanceof Array, '... returns array')
+
         assert.end()
     })
+
+
 
     t.test('Method gatherEntries ...', assert => {
-        const cattleman = new Cattleman()
+        const cattleman = new Cattleman({
+            directory: 'tests'
+        })
+
         assert.true(cattleman.gatherEntries, '... exists')
         assert.equal(typeof cattleman.gatherEntries, 'function', '... is function')
-        assert.end()
-    })
 
-    t.test('Method gatherTemplates ...', assert => {
-        const cattleman = new Cattleman()
-        assert.true(cattleman.gatherTemplates, '... exists')
-        assert.equal(typeof cattleman.gatherTemplates, 'function', '... is function')
+        const entries = cattleman.gatherEntries()
+        assert.equal(typeof entries, 'object', '... returns object')
+
         assert.end()
     })
 
