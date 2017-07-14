@@ -4,10 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/chlorophyllkid/cattleman/badge.svg?branch=master)](https://coveralls.io/github/chlorophyllkid/cattleman?branch=master)
 [![CodeFactor](https://www.codefactor.io/repository/github/chlorophyllkid/cattleman/badge)](https://www.codefactor.io/repository/github/chlorophyllkid/cattleman)
 
-Maintainer: Christopher Voigt [@chlorophyllkid](https://twitter.com/chlorophyllkid)
-
-Cattleman is a small helper library that gathers javascript and stylesheet files and combines them to modular bundles.
-To archieve that it creates chunks like the `entry` object in the webpack config.
+Cattleman is a small helper library. It parses a given directory and gathers javascript and stylesheets of components in entry objects. These objects can be used to extend the webpack config entry property.
 
 ## Installation
 
@@ -18,19 +15,28 @@ $ npm install cattleman --save-dev
 
 ## Usage
 
-Simply require it in your `webpack.config.js` like:
+Require it in your `webpack.config.js` like:
 
 ```javascript
 const webpack = require('webpack')
 const Cattleman = require('cattleman')
 
 let config = {
-    entry: { ... },
-    output: { ... },
+    entry: {
+        base: [ './src/base.js', './src/base.css' ]
+    },
+    output: {
+        filename: 'modules/[name].js',
+        path: __dirname + '/dist'
+    },
     module: {
         rules: [ ... ]
     },
-    plugins: [ ... ]
+    plugins: [
+        new ExtractTextPlugin({
+            filename: 'modules/[name].css',
+        })
+    ]
 }
 
 const cattleman = new Cattleman('src/modules')
@@ -38,73 +44,89 @@ const entries = cattleman.gatherEntries()
 
 config.entry = Object.assign({}, config.entry, entries)
 
+
 module.exports = config
 
 ```
 
 ## Options
 
-You can easily run Cattleman without any options. But have a look at the default settings:
+You can init a cattleman instance without options. These are the defaults:
 ```javascript
 defaults = {
     directory: 'src',       // Name of directory cattleman should search in.
-    excludes: [],           // Cattleman ignores filepaths which include the strings listed here.
+    excludes: [ 'test' ],   // Cattleman ignores filepaths which include the strings listed here.
     extentions: {
         stylesheet: '.css', // Extention of stylesheets (set to .scss or .less if needed)
         script: '.js'       // Extention of scripts (set to .ts if needed)
     }
 }
 ```
-If you run `new Cattleman('src/modules')`, it would be the same as `new Cattleman({ directory: 'src/modules' })`.
+`new Cattleman('src/modules')` is equal to `new Cattleman({ directory: 'src/modules' })`.
 
 ## Methods
 
-Since it's a small helper library, cattleman just got 2 methods.
+*gatherEntries()* - Returns an object, where the keys are chunk names and the values are lists of the containing files.
 
-**gatherFiles()** - Returns a list of all files (except exludes) in the search directory.
-
-**gatherEntries()** - Returns an object, where the keys are chunk names and the values are lists of the containing files.
+*gatherFiles()* - Returns a list of files in the search directory.
 
 ## Example
 
-Let's say you got a project folder:
+Let's say you got a `src/` folder in your projects directory containing the code of your site:
 ```bash
-./
-build/
 src/
-package.json
-webpack.config.js
+└─ modules/
+  ├─ header/
+  │ ├─ header.js
+  │ └─ header.css
+  ├─ footer/
+  │ ├─ footer.js
+  │ └─ footer.css
+  └─ ...
 ```
-And in your `src/` folder sits another directory `modules/` containing the code of your site:
-```bash
-./src/modules
-awesomeComponent.js
-awesomeComponent.css
-fancyModule.js
-fancyModule.css
+Imagine there are 20 - 30 independent components more.
+
+Instead of writing each of it into the entry property and manage it by yourself, use *gatherEntries*:
+```javascript
+const cattleman = new Cattleman('src/modules')
+
+const entries = cattleman.gatherEntries()
+// now entries looks like this
+{
+    'header/header': [ './src/modules/header/header.js', './src/modules/header/header.css' ],
+    'footer/footer': [ './src/modules/footer/footer.js', './src/modules/footer/footer.css' ],
+    ...
+}
+// the chunk names are defined by the filepath of the component
+
+config.entry = Object.assign({}, config.entry, entries)
+
+// since a chunk name is put into the [name] placeholder of the output paths,
+// your dist folder will have a clear structure too
+
+module.exports = config
 ```
 
-You would use cattleman like this:
+If you want to create whole bundles, use *gatherFiles*:
+
 ```javascript
 const cattleman = new Cattleman('src/modules')
 
 const files = cattleman.gatherFiles()
 // now files looks like this
 [
-    'src/modules/awesomeComponent.js',
-    'src/modules/awesomeComponent.css',
-    'src/modules/fancyModule.js',
-    'src/modules/fancyModule.css'
+    './src/modules/header/header.js',
+    './src/modules/header/header.css',
+    './src/modules/footer/footer.js',
+    './src/modules/footer/footer.css',
+    ...
 ]
 
-const entries = cattleman.gatherEntries()
-// now entries looks like this
-{
-    awesomeComponent: [ 'src/modules/awesomeComponent.js', 'src/modules/awesomeComponent.css' ],
-    fancyModule: [ 'src/modules/fancyModule.js', 'src/modules/fancyModule.css' ]
-}
+config.entry = { bundle: files }
 
+module.exports = config
 ```
+
 
 ## License
 
