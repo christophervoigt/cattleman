@@ -44,7 +44,6 @@ const entries = cattleman.gatherEntries()
 
 config.entry = Object.assign({}, config.entry, entries)
 
-
 module.exports = config
 
 ```
@@ -54,11 +53,11 @@ module.exports = config
 You can init a cattleman instance without options. These are the defaults:
 ```javascript
 defaults = {
-    directory: 'src',       // Name of directory cattleman should search in.
-    excludes: [ 'test' ],   // Cattleman ignores filepaths which include the strings listed here.
+    directory: 'src',       // search directory
+    excludes: [ 'test' ],   // filepaths, which include a string listed here, are ignored
     extentions: {
-        stylesheet: '.css', // Extention of stylesheets (set to .scss or .less if needed)
-        script: '.js'       // Extention of scripts (set to .ts if needed)
+        stylesheet: '.css', // extention of stylesheets
+        script: '.js'       // extention of scripts
     }
 }
 ```
@@ -66,9 +65,11 @@ defaults = {
 
 ## Methods
 
-*gatherEntries()* - Returns an object, where the keys are chunk names and the values are lists of the containing files.
+**gatherEntries()**<br>
+Returns an object, where the keys are chunk names and the values are lists of the containing files.
 
-*gatherFiles()* - Returns a list of files in the search directory.
+**gatherFiles()**<br>
+Returns a list of files in the search directory.
 
 ## Example
 
@@ -86,15 +87,21 @@ src/
 ```
 Imagine there are 20 - 30 independent components more.
 
-Instead of writing each of it into the entry property and manage it by yourself, use *gatherEntries*:
+Instead of writing each of it into the entry property and manage it by yourself, use **gatherEntries()**:
 ```javascript
 const cattleman = new Cattleman('src/modules')
 
 const entries = cattleman.gatherEntries()
 // now entries looks like this
 {
-    'header/header': [ './src/modules/header/header.js', './src/modules/header/header.css' ],
-    'footer/footer': [ './src/modules/footer/footer.js', './src/modules/footer/footer.css' ],
+    'header/header': [
+        './src/modules/header/header.js',
+        './src/modules/header/header.css'
+    ],
+    'footer/footer': [
+        './src/modules/footer/footer.js',
+        './src/modules/footer/footer.css'
+    ],
     ...
 }
 // the chunk names are defined by the filepath of the component
@@ -107,7 +114,7 @@ config.entry = Object.assign({}, config.entry, entries)
 module.exports = config
 ```
 
-If you want to create whole bundles, use *gatherFiles*:
+If you want to create whole bundles, use **gatherFiles()**:
 
 ```javascript
 const cattleman = new Cattleman('src/modules')
