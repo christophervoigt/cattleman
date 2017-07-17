@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/chlorophyllkid/cattleman.svg?branch=master)](https://travis-ci.org/chlorophyllkid/cattleman)
 [![Coverage Status](https://coveralls.io/repos/github/chlorophyllkid/cattleman/badge.svg?branch=master)](https://coveralls.io/github/chlorophyllkid/cattleman?branch=master)
+[![Dependency Status](https://david-dm.org/chlorophyllkid/cattleman.svg)](https://david-dm.org/chlorophyllkid/cattleman)
 [![CodeFactor](https://www.codefactor.io/repository/github/chlorophyllkid/cattleman/badge)](https://www.codefactor.io/repository/github/chlorophyllkid/cattleman)
 
 Cattleman is a small helper library. It parses a given directory and gathers javascript and stylesheets of components in entry objects. These objects can be used to extend the webpack config entry property.
