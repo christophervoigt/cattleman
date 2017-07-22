@@ -1,3 +1,4 @@
+const path = require('path')
 const test = require('tape')
 const Cattleman = require('../lib/cattleman')
 
@@ -25,6 +26,11 @@ test('Cattleman test cases:', t => {
         assert.true(list instanceof Array, '... returns array')
         assert.equal(typeof list[0], 'string', '... returns array of strings')
 
+        const filteredList = cattleman.gatherFiles('.js')
+        assert.equal(path.extname(list[0]), '.js', '... works with extentionFilter')
+        assert.throws(() => {cattleman.gatherFiles({})}, new Error('extentionFilter has to be type of string'), '... throws error when extentionFilter is no string')
+        assert.throws(() => {cattleman.gatherFiles('cattleman')}, new Error('extentionFilter has to start with \'.\''), '... throws error when extentionFilter doesn\'t start with \'.\'')
+
         assert.end()
     })
 
@@ -38,6 +44,11 @@ test('Cattleman test cases:', t => {
 
         const entries = cattleman.gatherEntries()
         assert.equal(typeof entries, 'object', '... returns object')
+
+        for(const chunk in entries) {
+            assert.true(entries[chunk] instanceof Array, '... returns object of arrays')
+            assert.equal(typeof entries[chunk][0], 'string', '... returns object of arrays with strings')
+        }
 
         assert.end()
     })

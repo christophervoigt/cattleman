@@ -69,8 +69,10 @@ defaults = {
 **gatherEntries()**<br>
 Returns an object, where the keys are chunk names and the values are lists of the containing files.
 
-**gatherFiles()**<br>
+**gatherFiles( extentionFilter )**<br>
 Returns a list of files in the search directory.
+
+*extentionFilter* (string) filters the list for a specific file type ( e.g. '.js' )
 
 ## Example
 
