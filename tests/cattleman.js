@@ -27,7 +27,7 @@ test('Cattleman test cases:', t => {
         assert.equal(typeof list[0], 'string', '... returns array of strings')
 
         const filteredList = cattleman.gatherFiles('.js')
-        assert.equal(path.extname(list[0]), '.js', '... works with extentionFilter')
+        assert.equal(path.extname(filteredList[0]), '.js', '... works with extentionFilter')
         assert.throws(() => {cattleman.gatherFiles({})}, new Error('extentionFilter has to be type of string'), '... throws error when extentionFilter is no string')
         assert.throws(() => {cattleman.gatherFiles('cattleman')}, new Error('extentionFilter has to start with \'.\''), '... throws error when extentionFilter doesn\'t start with \'.\'')
 
