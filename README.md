@@ -23,7 +23,7 @@ const Cattleman = require('cattleman')
 
 let config = {
     entry: {
-        base: [ './src/base.js', './src/base.css' ]
+        base: [ 'src/base.js', 'src/base.css' ]
     },
     output: {
         filename: 'modules/[name].js',
@@ -90,18 +90,18 @@ const cattleman = new Cattleman('src/modules')
 const files = cattleman.gatherFiles()
 // now files whould look like this
 [
-    './src/modules/header/header.js',
-    './src/modules/header/header.css',
-    './src/modules/footer/footer.js',
-    './src/modules/footer/footer.css',
+    'src/modules/header/header.js',
+    'src/modules/header/header.css',
+    'src/modules/footer/footer.js',
+    'src/modules/footer/footer.css',
     ...
 ]
 
 const jsFiles = cattleman.gatherFiles('.js')
 // now jsFiles whould look like this
 [
-    './src/modules/header/header.js',
-    './src/modules/footer/footer.js',
+    'src/modules/header/header.js',
+    'src/modules/footer/footer.js',
     ...
 ]
 
@@ -120,12 +120,12 @@ const entries = cattleman.gatherEntries()
 // now entries whould look like this
 {
     'header/header': [
-        './src/modules/header/header.js',
-        './src/modules/header/header.css'
+        'src/modules/header/header.js',
+        'src/modules/header/header.css'
     ],
     'footer/footer': [
-        './src/modules/footer/footer.js',
-        './src/modules/footer/footer.css'
+        'src/modules/footer/footer.js',
+        'src/modules/footer/footer.css'
     ],
     ...
 }
