@@ -31,14 +31,20 @@ test('Cattleman test cases:', t => {
     t.test('Constructor ...', assert => {
         assert.equal(typeof Cattleman, 'function', '... is function')
 
-        const instance = new Cattleman()
-        assert.true(instance instanceof Cattleman, '... is instanceable')
+        const firstInstance = new Cattleman()
+        assert.true(firstInstance instanceof Cattleman, '... is instanceable')
+
+        const secondInstance = new Cattleman('src')
+        assert.true(secondInstance instanceof Cattleman, '... is instanceable with string')
+
+        const thirdInstance = new Cattleman({ directory:  'src' })
+        assert.true(thirdInstance instanceof Cattleman, '... is instanceable with object')
 
         assert.throws(() => {Cattleman()},
             new Error(),
             '... throws error if called without new keyword')
 
-        assert.throws(() => {Cattleman(['src'])},
+        assert.throws(() => {new Cattleman([ 1, 2, 3 ])},
             new Error(),
             '... throws error if options is neither string nor object')
 
