@@ -49,12 +49,8 @@ module.exports = config
 You can init a cattleman instance without options. These are the defaults:
 ```javascript
 defaults = {
-    directory:         'src',      // search directory
-    excludes:        [ 'test' ],   // filepaths, which include a string listed here, are ignored
-    extentions: {
-        stylesheet:    '.css',     // extention of stylesheets
-        script:        '.js'       // extention of scripts
-    }
+    directory:   'src',    // search directory
+    excludes:  [ 'test' ]  // filepaths, which include a string listed here, are ignored
 }
 ```
 If you just pass a string to the constructor, cattleman interprets it as the directory.
@@ -62,9 +58,11 @@ If you just pass a string to the constructor, cattleman interprets it as the dir
 
 ## Methods
 * **gatherFiles( extentionFilter )** - returns the list of files in the search directory
-  <br> *extentionFilter* - (string) filters the list for a specific file type ( e.g. '.js' )
+* **gatherEntries( extentionFilter )** - returns an object of generated entry points
 
-* **gatherEntries()** - returns an object with sorted lists of files (Code Splitting)
+[optional] *extentionFilter* - (string | array) - valid file type(s) (e.g. `'.js'` or `['.js', '.css']`)
+
+**Warning**: If extentionFilter equals an empty array, no extention is valid.
 
 
 ## Examples
@@ -72,12 +70,14 @@ Let's say you got a `src/` folder in your projects directory containing the code
 ```bash
 src/
 └─ modules/
-  ├─ header/
-  │ ├─ header.js
-  │ └─ header.css
   ├─ footer/
-  │ ├─ footer.js
-  │ └─ footer.css
+  │ ├─ footer.css
+  │ ├─ footer.html
+  │ └─ footer.js
+  ├─ header/
+  │ ├─ header.css
+  │ ├─ header.html
+  │ └─ header.js
   └─ ...
 ```
 Imagine there are 20 - 30 modules more.
@@ -90,18 +90,20 @@ const cattleman = new Cattleman('src/modules')
 const files = cattleman.gatherFiles()
 // now files whould look like this
 [
-    'src/modules/header/header.js',
-    'src/modules/header/header.css',
-    'src/modules/footer/footer.js',
     'src/modules/footer/footer.css',
+    'src/modules/footer/footer.html',
+    'src/modules/footer/footer.js',
+    'src/modules/header/header.css',
+    'src/modules/header/header.html',
+    'src/modules/header/header.js',
     ...
 ]
 
 const jsFiles = cattleman.gatherFiles('.js')
 // now jsFiles whould look like this
 [
-    'src/modules/header/header.js',
     'src/modules/footer/footer.js',
+    'src/modules/header/header.js',
     ...
 ]
 
@@ -116,16 +118,32 @@ If you want separat bundles for each of your modules, use **gatherEntries()**:
 ```javascript
 const cattleman = new Cattleman('src/modules')
 
-const entries = cattleman.gatherEntries()
+const chunks = cattleman.gatherEntries()
+// now chunks whould look like this
+{
+    'footer/footer': [
+        'src/modules/footer/footer.css',
+        'src/modules/footer/footer.html',
+        'src/modules/footer/footer.js'
+    ],
+    'header/header': [
+        'src/modules/header/header.css',
+        'src/modules/header/header.html',
+        'src/modules/header/header.js'
+    ],
+    ...
+}
+
+const entries = cattleman.gatherEntries(['.js', '.css'])
 // now entries whould look like this
 {
-    'header/header': [
-        'src/modules/header/header.js',
-        'src/modules/header/header.css'
-    ],
     'footer/footer': [
-        'src/modules/footer/footer.js',
-        'src/modules/footer/footer.css'
+        'src/modules/footer/footer.css',
+        'src/modules/footer/footer.js'
+    ],
+    'header/header': [
+        'src/modules/header/header.css',
+        'src/modules/header/header.js'
     ],
     ...
 }
