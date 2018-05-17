@@ -1,6 +1,7 @@
 'use strict'
 
 const fs = require('fs')
+const path = require('path')
 const test = require('tape')
 const Cattleman = require('../lib/cattleman')
 
@@ -59,34 +60,34 @@ test('Cattleman test cases:', t => {
 
         const allFiles = cattleman.gatherFiles()
         const comparableList = [
-            'src/base.css',
-            'src/base.js',
-            'src/footer/footer.css',
-            'src/footer/footer.html',
-            'src/footer/footer.js',
-            'src/header/header.css',
-            'src/header/header.html',
-            'src/header/header.js'
+            path.join('src', path.sep ,'base.css'),
+            path.join('src', path.sep ,'base.js'),
+            path.join('src', path.sep ,'footer', path.sep ,'footer.css'),
+            path.join('src', path.sep ,'footer', path.sep ,'footer.html'),
+            path.join('src', path.sep ,'footer', path.sep ,'footer.js'),
+            path.join('src', path.sep ,'header', path.sep ,'header.css'),
+            path.join('src', path.sep ,'header', path.sep ,'header.html'),
+            path.join('src', path.sep ,'header', path.sep ,'header.js')
         ]
         assert.true(allFiles instanceof Array, '... returns array')
         assert.deepEqual(allFiles, comparableList, '... works as expected')
 
         const allScriptFiles = cattleman.gatherFiles('.js')
         const comparableScriptList = [
-            'src/base.js',
-            'src/footer/footer.js',
-            'src/header/header.js'
+            path.join('src', path.sep ,'base.js'),
+            path.join('src', path.sep ,'footer', path.sep ,'footer.js'),
+            path.join('src', path.sep ,'header', path.sep ,'header.js')
         ]
         assert.deepEqual(allScriptFiles, comparableScriptList, '... works with extentionFilter string')
 
         const allScriptAndStyleFiles = cattleman.gatherFiles(['.js', '.css'])
         const comparableScriptAndStyleList = [
-            'src/base.css',
-            'src/base.js',
-            'src/footer/footer.css',
-            'src/footer/footer.js',
-            'src/header/header.css',
-            'src/header/header.js'
+            path.join('src', path.sep ,'base.css'),
+            path.join('src', path.sep ,'base.js'),
+            path.join('src', path.sep ,'footer', path.sep ,'footer.css'),
+            path.join('src', path.sep ,'footer', path.sep ,'footer.js'),
+            path.join('src', path.sep ,'header', path.sep ,'header.css'),
+            path.join('src', path.sep ,'header', path.sep ,'header.js')
         ]
         assert.deepEqual(allScriptAndStyleFiles, comparableScriptAndStyleList, '... works with extentionFilter array')
 
@@ -102,55 +103,6 @@ test('Cattleman test cases:', t => {
             '... throws error if one extentionFilter is not type of string')
 
         assert.throws(() => {cattleman.gatherFiles('js')},
-            new Error(),
-            '... throws error if one extentionFilter does not start with \'.\'')
-
-        assert.end()
-    })
-
-    t.test('Method gatherEntries ...', assert => {
-        const cattleman = new Cattleman('src')
-
-        assert.true(cattleman.gatherEntries, '... exists')
-        assert.equal(typeof cattleman.gatherEntries, 'function', '... is function')
-
-        const entries = cattleman.gatherEntries()
-        const comparableEntries = {
-            'base' : [ 'src/base.css', 'src/base.js' ],
-            'footer/footer' : [ 'src/footer/footer.css', 'src/footer/footer.html', 'src/footer/footer.js' ],
-            'header/header' : [ 'src/header/header.css', 'src/header/header.html', 'src/header/header.js' ]
-        }
-        assert.equal(typeof entries, 'object', '... returns object')
-        assert.deepEqual(entries, comparableEntries, '... works as expected')
-
-        const allScriptEntries = cattleman.gatherEntries('.js')
-        const comparableScriptEntries = {
-            'base' : [ 'src/base.js' ],
-            'footer/footer' : [ 'src/footer/footer.js' ],
-            'header/header' : [ 'src/header/header.js' ]
-        }
-        assert.deepEqual(allScriptEntries, comparableScriptEntries, '... works with extentionFilter string')
-
-        const allScriptAndStyleEntries = cattleman.gatherEntries(['.js', '.css'])
-        const comparableScriptAndStyleEntries = {
-            'base' : [ 'src/base.css', 'src/base.js' ],
-            'footer/footer' : [ 'src/footer/footer.css', 'src/footer/footer.js' ],
-            'header/header' : [ 'src/header/header.css', 'src/header/header.js' ]
-        }
-        assert.deepEqual(allScriptAndStyleEntries, comparableScriptAndStyleEntries, '... works with extentionFilter array')
-
-        const noEntries = cattleman.gatherEntries([])
-        assert.deepEqual(noEntries, {}, '... works with empty extentionFilter')
-
-        assert.throws(() => { cattleman.gatherEntries({test:'object'}) },
-            new Error(),
-            '... throws error if extentionFilter is neither string nor array')
-
-        assert.throws(() => {cattleman.gatherEntries([ 5, 6, 7 ])},
-            new Error(),
-            '... throws error if one extentionFilter is not type of string')
-
-        assert.throws(() => {cattleman.gatherEntries('js')},
             new Error(),
             '... throws error if one extentionFilter does not start with \'.\'')
 

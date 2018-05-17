@@ -23,7 +23,7 @@ const Cattleman = require('cattleman')
 
 let config = {
     entry: {
-        base: [ 'src/base.js', 'src/base.css' ]
+        bundle: [ 'src/bundle.js', 'src/bundle.css' ]
     },
     output: {
         filename: 'modules/[name].js',
@@ -58,14 +58,13 @@ If you just pass a string to the constructor, cattleman interprets it as the dir
 
 ## Methods
 * **gatherFiles( extentionFilter )** - returns the list of files in the search directory
-* **gatherEntries( extentionFilter )** - returns an object of generated entry points
 
 [optional] *extentionFilter* - (string | array) - valid file type(s) (e.g. `'.js'` or `['.js', '.css']`)
 
 **Warning**: If extentionFilter equals an empty array, no extention is valid.
 
 
-## Examples
+## Example
 Let's say you got a `src/` folder in your projects directory containing the code of your site:
 ```bash
 src/
@@ -82,7 +81,6 @@ src/
 ```
 Imagine there are 20 - 30 modules more.
 
-If you want to create a bundle from all your files, use **gatherFiles()**:
 
 ```javascript
 const cattleman = new Cattleman('src/modules')
@@ -110,45 +108,6 @@ const jsFiles = cattleman.gatherFiles('.js')
 config.entry = {
     bundle: jsFiles
 }
-
-module.exports = config
-```
-
-If you want separat bundles for each of your modules, use **gatherEntries()**:
-```javascript
-const cattleman = new Cattleman('src/modules')
-
-const chunks = cattleman.gatherEntries()
-// now chunks whould look like this
-{
-    'footer/footer': [
-        'src/modules/footer/footer.css',
-        'src/modules/footer/footer.html',
-        'src/modules/footer/footer.js'
-    ],
-    'header/header': [
-        'src/modules/header/header.css',
-        'src/modules/header/header.html',
-        'src/modules/header/header.js'
-    ],
-    ...
-}
-
-const entries = cattleman.gatherEntries(['.js', '.css'])
-// now entries whould look like this
-{
-    'footer/footer': [
-        'src/modules/footer/footer.css',
-        'src/modules/footer/footer.js'
-    ],
-    'header/header': [
-        'src/modules/header/header.css',
-        'src/modules/header/header.js'
-    ],
-    ...
-}
-
-config.entry = Object.assign({}, config.entry, entries)
 
 module.exports = config
 ```
