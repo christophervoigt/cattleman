@@ -1,6 +1,6 @@
 {
   "name": "cattleman",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "a helper library that gathers files and entry points",
   "license": "MIT",
   "author": "Christopher Voigt <chlorophyllkid@gmail.com>",
