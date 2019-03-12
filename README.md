@@ -1,4 +1,6 @@
 # Cattleman
+[![NPM Version](http://img.shields.io/npm/v/cattleman.svg?style=flat)](https://www.npmjs.com/package/cattleman)
+[![NPM Downloads](https://img.shields.io/npm/dm/cattleman.svg?style=flat)](https://npmcharts.com/compare/cattleman?minimal=true)
 [![Build Status](https://travis-ci.org/chlorophyllkid/cattleman.svg?branch=master)](https://travis-ci.org/chlorophyllkid/cattleman)
 [![Coverage Status](https://coveralls.io/repos/github/chlorophyllkid/cattleman/badge.svg?branch=master)](https://coveralls.io/github/chlorophyllkid/cattleman?branch=master)
 [![Dependency Status](https://david-dm.org/chlorophyllkid/cattleman.svg)](https://david-dm.org/chlorophyllkid/cattleman)
